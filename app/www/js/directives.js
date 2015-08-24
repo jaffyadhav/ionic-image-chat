@@ -42,7 +42,7 @@ angular.module('ImageShare.directives',[])
             quality: 75,
             destinationType: 0,
             sourceType : 1,
-            allowEdit : true,
+            allowEdit : false,
             encodingType: 0,
             targetWidth: 320,
             targetHeight: 320,
@@ -60,7 +60,7 @@ angular.module('ImageShare.directives',[])
   }
 }])
 
-.directive('chatList',['$rootScope','SOCKET_URL',function($rootScope,SOCKET_URL){
+.directive('chatList',['$rootScope', 'USER', 'SOCKET_URL',function($rootScope,USER,SOCKET_URL){
     return{
         replace:true,
         restrict:'AE',
@@ -72,20 +72,16 @@ angular.module('ImageShare.directives',[])
             scope.messages=[];
 
             socket.on('event:incoming:image',function(data){
-                scope.$apply(function(){
+                (data.sender!=USER.name) && scope.$apply(function(){                    
                     scope.messages.unshift(data);
                 });
 
             });
 
             $rootScope.$on('event:file:selected',function(event,data){
-
                 socket.emit('event:new:image',data);
-
-                scope.$apply(function(){
-                    scope.messages.unshift(data);
-                });
-
+                scope.messages.unshift(data);
+                scope.$apply();
             });
         },
         templateUrl:'views/chat-list.html'
