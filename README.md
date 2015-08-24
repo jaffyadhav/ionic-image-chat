@@ -6,7 +6,7 @@ This is a real time image sharing chat application built using Ionic and socket.
 
 ##Installation
 
-**Note**: This is on an assumption that you already have ionic and cordova installed locally.
+**Note**: This is on the assumption that you already have ionic and cordova pre-installed.
 
 1) Clone the repo
 
